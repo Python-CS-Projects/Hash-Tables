@@ -16,9 +16,8 @@ class HashTable:
     that accepts string keys
     '''
 
-    def __init__(self, capacity=8):
+    def __init__(self, capacity):
         self.capacity = capacity  # Number of buckets in the hash table
-        self.count = 0
         self.storage = [None] * capacity
 
     def _hash(self, key):
@@ -56,8 +55,14 @@ class HashTable:
         Fill this in.
         '''
         # 1.create hash
-        hash = self._hash(key)
-        # 2.insert value using the return hash/index
+        hash = self._hash_mod(key)
+        # 2. Handle collisions
+        if self.storage[hash]:
+            print(
+                f"Error, cannot insert: {value}, because a value already exist.")
+        else:
+            # 3.insert value using the return hash/index
+            self.storage[hash] = value
 
     def remove(self, key):
         '''
