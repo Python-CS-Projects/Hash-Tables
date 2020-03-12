@@ -78,10 +78,10 @@ class HashTable:
         hash = self._hash_mod(key)
         # 2. Find the index in the array
         if self.storage[hash]:
-            print(f"Cannot remove because {key} is not found in the array")
-        else:
             self.storage[hash] = None
-        print(f"Removed successfuly, current array: {self.storage}")
+            print(f"Removed successfuly, current array: {self.storage}")
+        else:
+            print(f"Cannot remove because {key} is not found in the array")
 
     def retrieve(self, key):
         '''
@@ -93,6 +93,13 @@ class HashTable:
         '''
         # 1.create hash
         hash = self._hash_mod(key)
+        # 2. Check if it exist
+        value = self.storage[hash]
+        if self.storage[hash]:
+            print(f"Found {value}")
+            return self.storage[hash]
+        else:
+            print(f"{key} not found in array")
 
     def resize(self):
         '''
