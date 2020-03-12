@@ -55,7 +55,9 @@ class HashTable:
 
         Fill this in.
         '''
+        # 1.create hash
         hash = self._hash(key)
+        # 2.insert value using the return hash/index
 
     def remove(self, key):
         '''
