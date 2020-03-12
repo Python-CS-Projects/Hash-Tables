@@ -59,10 +59,12 @@ class HashTable:
         # 2. Handle collisions
         if self.storage[hash]:
             print(
-                f"Error, cannot insert: {value}, because a value already exist.")
+                f"Error, cannot insert: {value}, because a value already exist in the position.")
         else:
             # 3.insert value using the return hash/index
             self.storage[hash] = value
+            print(f"Sucessfuly inserted: {value}")
+        print(self.storage)
 
     def remove(self, key):
         '''
@@ -72,7 +74,14 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        # 1.create hash
+        hash = self._hash_mod(key)
+        # 2. Find the index in the array
+        if self.storage[hash]:
+            print(f"Cannot remove because {key} is not found in the array")
+        else:
+            self.storage[hash] = None
+        print(f"Removed successfuly, current array: {self.storage}")
 
     def retrieve(self, key):
         '''
@@ -82,7 +91,8 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        # 1.create hash
+        hash = self._hash_mod(key)
 
     def resize(self):
         '''
