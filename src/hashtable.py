@@ -1,13 +1,44 @@
 # '''
 # Linked List hash table key/value pair
 # '''
+from doubly_linked_list import LinkedList
+
+# class LinkedPair:
+#     def __init__(self, key, value):
+#         self.key = key
+#         self.value = value
+#         self.next = None
 
 
-class LinkedPair:
-    def __init__(self, key, value):
-        self.key = key
-        self.value = value
-        self.next = None
+# class LinkedList:
+#     def __init__(self):
+#         self.head = None
+
+#     def add_to_head(self, key, value):
+#         # New head
+#         new_head = LinkedPair(key, value)
+#         # if the Linked list is empty
+#         if self.head == None:
+#             # create first entry
+#             self.head = new_head
+#         # If the linked list is NOT empty
+#         else:
+#             # store old head
+#             old_head = self.head
+#             # Save new value as head
+#             self.head = new_head
+#             # set the next value of the new head
+#             self.head.next = old_head
+
+#     def contains(self, key):
+#         if not self.head:
+#             return False
+#         current = self.head
+#         while current:
+#             if current.key == key:
+#                 return True
+#             current = current.next
+#         return False
 
 
 class HashTable:
@@ -19,6 +50,8 @@ class HashTable:
     def __init__(self, capacity):
         self.capacity = capacity  # Number of buckets in the hash table
         self.storage = [None] * capacity
+        self.count = 0
+        self.bucket = LinkedList()
 
     def _hash(self, key):
         '''
@@ -55,16 +88,17 @@ class HashTable:
         Fill this in.
         '''
         # 1.create hash
-        hash = self._hash_mod(key)
+        hash_key = self._hash_mod(key)
         # 2. Handle collisions
-        if self.storage[hash]:
-            print(
-                f"Error, cannot insert: {value}, because a value already exist in the position.")
-        else:
-            # 3.insert value using the return hash/index
-            self.storage[hash] = value
-            print(f"Sucessfuly inserted: {value}")
-        print(self.storage)
+        # create linked list
+        self.bucket.add_to_head(key, value)
+        # 3.insert value using the return hash/index
+
+        self.storage[hash_key] = self.bucket.head
+        # LinkedList.add_to_head(key, value)
+        print(f"Sucessfuly inserted: {value}")
+        self.count += 1
+
 
     def remove(self, key):
         '''
@@ -75,10 +109,10 @@ class HashTable:
         Fill this in.
         '''
         # 1.create hash
-        hash = self._hash_mod(key)
+        hash_key = self._hash_mod(key)
         # 2. Find the index in the array
-        if self.storage[hash]:
-            self.storage[hash] = None
+        if self.storage[hash_key]:
+            self.storage[hash_key] = None
             print(f"Removed successfuly, current array: {self.storage}")
         else:
             print(f"Cannot remove because {key} is not found in the array")
@@ -92,12 +126,12 @@ class HashTable:
         Fill this in.
         '''
         # 1.create hash
-        hash = self._hash_mod(key)
+        hash_key = self._hash_mod(key)
         # 2. Check if it exist
-        value = self.storage[hash]
-        if self.storage[hash]:
+        value = self.storage[hash_key]
+        if self.storage[hash_key]:
             print(f"Found {value}")
-            return self.storage[hash]
+            return self.storage[hash_key]
         else:
             print(f"{key} not found in array")
 
@@ -108,6 +142,14 @@ class HashTable:
 
         Fill this in.
         '''
+        # # Double the capacity
+        # self.capacity *= 2
+        # new_storage = [None] * self.capacity
+
+        # # copy stuff into new array
+
+        # for pair in range(len(self.storage)):
+        #     new_storage[i] = self.storage[i]
         pass
 
 
