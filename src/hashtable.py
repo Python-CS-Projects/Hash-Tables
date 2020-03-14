@@ -157,6 +157,7 @@ class HashTable:
                 # Move to the next till we find a match in the linked list
                 else:
                     current_pair = current_pair.next
+        # Nothing was found at specified index
         else:
             print(f"Nothing found at index {index}")
 
@@ -168,14 +169,23 @@ class HashTable:
 
         Fill this in.
         '''
-        # 1.create hash
-        hash_key = self._hash_mod(key)
-        # 2. Check if it exist
-        value = self.storage[hash_key]
-        if value:
-            print(f"Found {value}")
-            return self.bucket.contains(value)
+        # 1.create index using hash
+        index = self._hash_mod(key)
+        pair = self.storage[index]
 
+        # 2. Check if it exist
+        if pair is not None:
+            current_pair = self.storage[index]
+
+            while current_pair is not None:
+                # Found target and set as None to delete
+                if current_pair.key == key:
+                    # Return match value
+                    return current_pair.value
+                # Move to the next till we find a match in the linked list
+                else:
+                    current_pair = current_pair.next
+        # Nothing was found at specified index
         else:
             print(f"{key} not found in array")
 
@@ -189,10 +199,21 @@ class HashTable:
         # double capacity
         self.capacity *= 2
         new_storage = [None] * self.capacity
-        # copy stuff into new array
-        for idx in range(len(self.storage)):
-            new_storage[idx] = self.storage[idx]
+        copy = self.storage
         self.storage = new_storage
+        # copy stuff into new array
+        # Loop over the storage
+        for pair in copy:
+            # if the position is not None
+            if pair is not None:
+                # Get the current Linklist
+                current_pair = pair
+                # While there is an item in the linked list
+                while current_pair is not None:
+                    # Insert the current pair to the new array
+                    self.insert(current_pair.key, current_pair.value)
+                    # Move to the next next item in the linked list
+                    current_pair = current_pair.next
 
 
 if __name__ == "__main__":
