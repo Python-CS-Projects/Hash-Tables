@@ -99,7 +99,6 @@ class HashTable:
         print(f"Sucessfuly inserted: {value}")
         self.count += 1
 
-
     def remove(self, key):
         '''
         Remove the value stored with the given key.
@@ -131,7 +130,9 @@ class HashTable:
         value = self.storage[hash_key]
         if self.storage[hash_key]:
             print(f"Found {value}")
-            return self.storage[hash_key]
+            position = self.storage[hash_key]
+            return self.bucket.contains(position)
+
         else:
             print(f"{key} not found in array")
 
@@ -142,15 +143,13 @@ class HashTable:
 
         Fill this in.
         '''
-        # # Double the capacity
-        # self.capacity *= 2
-        # new_storage = [None] * self.capacity
-
-        # # copy stuff into new array
-
-        # for pair in range(len(self.storage)):
-        #     new_storage[i] = self.storage[i]
-        pass
+        # double capacity
+        self.capacity *= 2
+        new_storage = [None] * self.capacity
+        # copy stuff into new array
+        for idx in range(len(self.storage)):
+            new_storage[idx] = self.storage[idx]
+        self.storage = new_storage
 
 
 if __name__ == "__main__":

@@ -74,7 +74,17 @@ class LinkedList:
     def insert_at(self, value, position):
         pass
 
-    def contains(self, value):
-        cur_node = self.head
-        while(cur_node is not None):
-            cur_node = cur_node.get_next()
+    # def contains(self, value):
+    #     cur_node = self.head
+    #     while(cur_node is not None):
+    #         cur_node = cur_node.get_next()
+
+    def contains(self, key):
+        if not self.head:
+            return False
+        current = self.head
+        while current:
+            if current.key == key:
+                return True
+            current = current.next
+        return False
