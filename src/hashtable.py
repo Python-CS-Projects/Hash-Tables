@@ -144,13 +144,21 @@ class HashTable:
         Fill this in.
         '''
         # 1.create hash
-        hash_key = self._hash_mod(key)
+        index = self._hash_mod(key)
         # 2. Find the index in the array
-        if self.storage[hash_key]:
-            self.storage[hash_key] = None
-            print(f"Removed successfuly, current array: {self.storage}")
+        if self.storage[index] is not None:
+            current_pair = self.storage[index]
+            search = True
+            while search and current_pair is not None:
+                # Found target and set as None to delete
+                if current_pair.key == key:
+                    self.storage[index] = None
+                    search = False
+                # Move to the next till we find a match in the linked list
+                else:
+                    current_pair = current_pair.next
         else:
-            print(f"Cannot remove because {key} is not found in the array")
+            print(f"Nothing found at index {index}")
 
     def retrieve(self, key):
         '''
