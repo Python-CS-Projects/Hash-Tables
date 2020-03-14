@@ -113,19 +113,27 @@ class HashTable:
 
         Fill this in.
         '''
-        # use hash_mod to turn our key into a hash
+        # 1. use hash_mod to turn our key into an index
         index = self._hash_mod(key)
-        # check in storage if something is at that index already
+        new_entry = LinkedPair(key, value)
+        # 2. check in storage if something is at that index already
         if self.storage[index] is not None:
             print("WARNING you are overwriting stuff")
             pair = self.storage[index]
             done = False
-
+            # 1.Loop on linkedlist
             while pair is not None and not done:
+                # if the key is the same as the current key overwrite value
                 if pair.key is key:
-                    pass
+                    pair.value = value
+                    done = True
+                # Else create a new entry
                 else:
-                    pass
+                    pair.next = new_entry
+                    done = True
+        # 3. If there is nothing at index
+        else:
+            self.storage[index] = new_entry
 
     def remove(self, key):
         '''
