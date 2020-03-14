@@ -1,44 +1,70 @@
 # '''
 # Linked List hash table key/value pair
 # '''
-from doubly_linked_list import LinkedList
-
-# class LinkedPair:
-#     def __init__(self, key, value):
-#         self.key = key
-#         self.value = value
-#         self.next = None
 
 
-# class LinkedList:
-#     def __init__(self):
-#         self.head = None
+class LinkedPair:
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+        self.next = None
 
-#     def add_to_head(self, key, value):
-#         # New head
-#         new_head = LinkedPair(key, value)
-#         # if the Linked list is empty
-#         if self.head == None:
-#             # create first entry
-#             self.head = new_head
-#         # If the linked list is NOT empty
-#         else:
-#             # store old head
-#             old_head = self.head
-#             # Save new value as head
-#             self.head = new_head
-#             # set the next value of the new head
-#             self.head.next = old_head
 
-#     def contains(self, key):
-#         if not self.head:
-#             return False
-#         current = self.head
-#         while current:
-#             if current.key == key:
-#                 return True
-#             current = current.next
-#         return False
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def add_to_head(self, key, value):
+        # New head
+        new_head = LinkedPair(key, value)
+        # if the Linked list is empty
+        if self.head == None:
+            # create first entry
+            self.head = new_head
+        # If the linked list is NOT empty
+        else:
+            # store old head
+            old_head = self.head
+            # Save new value as head
+            self.head = new_head
+            # set the next value of the new head
+            self.head.next = old_head
+
+    def contains(self, key):
+        if not self.head:
+            return False
+        current = self.head
+        while current:
+            if current.key == key:
+                return True
+            current = current.next
+
+    def remove(self, key):
+        if not self.head:
+            print("Error: Key not found")
+        elif self.head.key == key:
+            # Remove head
+            self.head = self.head.next
+        else:
+            parent = self.head
+            current = self.head.next
+            while current:
+                if current.key == key:
+                    # Remove node
+                    parent.next = current.next
+                    return
+                current = current.next
+            print("Error: Key not found")
+
+    def retrieve(self, key):
+        if not self.head:
+            return False
+        current = self.head
+        while current:
+            if current.key == key:
+                return current
+            current = current.next
+        return False
 
 
 class HashTable:
@@ -87,17 +113,19 @@ class HashTable:
 
         Fill this in.
         '''
-        # 1.create hash
-        hash_key = self._hash_mod(key)
-        # 2. Handle collisions
-        # create linked list
-        self.bucket.add_to_head(key, value)
-        # 3.insert value using the return hash/index
+        # use hash_mod to turn our key into a hash
+        index = self._hash_mod(key)
+        # check in storage if something is at that index already
+        if self.storage[index] is not None:
+            print("WARNING you are overwriting stuff")
+            pair = self.storage[index]
+            done = False
 
-        self.storage[hash_key] = self.bucket.head
-        # LinkedList.add_to_head(key, value)
-        print(f"Sucessfuly inserted: {value}")
-        self.count += 1
+            while pair is not None and not done:
+                if pair.key is key:
+                    pass
+                else:
+                    pass
 
     def remove(self, key):
         '''
@@ -128,10 +156,9 @@ class HashTable:
         hash_key = self._hash_mod(key)
         # 2. Check if it exist
         value = self.storage[hash_key]
-        if self.storage[hash_key]:
+        if value:
             print(f"Found {value}")
-            position = self.storage[hash_key]
-            return self.bucket.contains(position)
+            return self.bucket.contains(value)
 
         else:
             print(f"{key} not found in array")
